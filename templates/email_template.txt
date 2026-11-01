@@ -1,0 +1,14 @@
+Dear {{ hr_name }},
+
+I am Rohan More from Koparkhairane, Navi Mumbai, and I am excited to apply for the {{ role }} role at {{ company_name }}.
+
+I hold a B.Tech in Information Technology with a CGPA of 8.8 from Bharati Vidyapeeth Deemed To Be University. I currently work as an SDE 1 at AINXT Technology Pvt. Ltd., where I develop dashboards and frontend SDKs and build reusable UI components using React.js and Angular. I also collaborate with senior developers to follow best practices and improve code quality.
+
+I have hands-on experience with ReactJS, JavaScript, TypeScript, HTML, CSS, Angular, Next.js, Redux, Tailwind CSS, ExpressJS, MongoDB, and API integration. I also have experience with Git, GitHub, OpenAI API, Claude, Gemini, AI Agents, and Function Calling.
+
+I am a quick learner with strong problem-solving, adaptability, critical thinking, and self-learning skills. I would appreciate the opportunity to discuss how my skills and experience can contribute to your team.
+
+Best regards,
+
+Rohan More
+LinkedIn: {{ linkedin }} | GitHub: {{ github }}

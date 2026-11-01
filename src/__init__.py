@@ -1,0 +1,1 @@
+"""Job Application Mailer package."""

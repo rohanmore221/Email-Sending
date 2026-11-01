@@ -1,0 +1,27 @@
+# Job Application Mailer Configuration
+
+campaign:
+  default_role: "Front End Developer"
+  years_of_experience: "1+"
+  
+  # Dynamic subject line (uses role from Excel or default_role)
+  subject_template: "Application for {{ role }} Role"
+
+# Attachments configuration
+attachments:
+  directory: "attachments"
+  files:
+    - "Rohan's Resume.pdf"
+
+# Anti-spam & deliverability safeguards
+safety:
+  min_delay_seconds: 20
+  max_delay_seconds: 40
+  max_batch_size: 50
+  cooldown_days: 30
+
+paths:
+  recipients_csv: "data/recipients.csv"
+  sent_history_csv: "data/sent_history.csv"
+  template_html: "templates/email_template.html"
+  template_txt: "templates/email_template.txt"
