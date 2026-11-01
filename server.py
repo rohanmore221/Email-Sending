@@ -350,6 +350,7 @@ def google_auth_callback(code: Optional[str] = Query(None), error: Optional[str]
     try:
         token_data = exchange_code_for_tokens(code)
         email = token_data.get("email", "your Google account")
+        frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
         return HTMLResponse(f"""
         <!DOCTYPE html>
         <html>
@@ -411,7 +412,7 @@ def google_auth_callback(code: Optional[str] = Query(None), error: Optional[str]
               if (window.opener) {{
                 window.close();
               }} else {{
-                window.location.href = 'http://localhost:5173/';
+                window.location.href = '{frontend_url}/';
               }}
             }}, 1500);
           </script>

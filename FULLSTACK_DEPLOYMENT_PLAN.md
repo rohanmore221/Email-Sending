@@ -120,63 +120,75 @@ frontend/src/
 
 ## 5. Deployment Step-by-Step Guide
 
-### Part A: Deploying Backend on Render.com (Free)
+### Part A: Deploying Backend on Render.com (or Railway)
 
-1. **Push your code to GitHub**:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit for job mailer"
-   git branch -M main
-   git remote add origin https://github.com/your-username/job-application-mailer.git
-   git push -u origin main
-   ```
+1. **Verify Your Repository on GitHub**:
+   - Repository: `https://github.com/rohanmore221/Email-Sending`
+   - Ensure the `main` branch is pushed without any committed secrets (`.env` is in `.gitignore`).
 
 2. **Create Web Service on Render**:
    - Log in to [Render.com](https://render.com) and click **New +** -> **Web Service**.
-   - Connect your GitHub repository.
+   - Connect your GitHub repository `rohanmore221/Email-Sending`.
    - Configure the service settings:
-     - **Name**: `job-mailer-api`
-     - **Environment**: `Python 3`
+     - **Name**: `job-mailer-api` (or your preferred name)
+     - **Region**: Closest to your location (e.g., Singapore or Frankfurt)
+     - **Branch**: `main`
+     - **Root Directory**: leave blank (root contains `server.py` and `requirements.txt`)
+     - **Runtime / Environment**: `Python 3`
      - **Build Command**: `pip install -r requirements.txt`
-     - **Start Command**: `uvicorn api:app --host 0.0.0.0 --port $PORT`
+     - **Start Command**: `uvicorn server:app --host 0.0.0.0 --port $PORT`
      - **Plan**: `Free`
 
 3. **Set Environment Variables in Render Dashboard**:
+   Under **Environment Variables**, add the following keys and values:
+   - `FRONTEND_URL`: `https://<your-vercel-app-domain>.vercel.app`
+   - `GOOGLE_CLIENT_ID`: `<your-google-client-id>`
+   - `GOOGLE_CLIENT_SECRET`: `<your-google-client-secret>`
+   - `GOOGLE_REDIRECT_URI`: `https://job-mailer-api.onrender.com/api/auth/google/callback`
    - `SMTP_HOST`: `smtp.gmail.com`
    - `SMTP_PORT`: `587`
-   - `SMTP_USER`: `your_email@gmail.com`
-   - `SMTP_PASSWORD`: `your_16_digit_app_password`
+   - `SMTP_USER`: `rohanmore151@gmail.com`
+   - `SMTP_PASSWORD`: `<your-16-character-app-password>`
    - `SENDER_NAME`: `Rohan More`
    - `SENDER_PHONE`: `+91-8652492520`
-   - `SENDER_LINKEDIN`: `https://www.linkedin.com/in/...`
+   - `SENDER_LINKEDIN`: `https://www.linkedin.com/in/rohan-sambhaji-more-72497121b/`
    - `SENDER_GITHUB`: `https://github.com/rohanmore221`
 
-4. Click **Deploy Web Service**. Render will generate your backend URL:
-   `https://job-mailer-api.onrender.com`
+4. Click **Create Web Service**. Render will build and deploy your API:
+   Your backend URL will look like: `https://job-mailer-api.onrender.com`
 
 ---
 
 ### Part B: Deploying Frontend on Vercel (Free)
 
-1. **Configure Environment in Frontend**:
-   In your frontend directory, create `.env.production`:
-   ```ini
-   VITE_API_BASE_URL=https://job-mailer-api.onrender.com
-   ```
+1. **Log in to [Vercel.com](https://vercel.com)**:
+   - Click **Add New...** -> **Project**.
+   - Select your GitHub repository: `rohanmore221/Email-Sending`.
 
-2. **Deploy via Vercel**:
-   - Log in to [Vercel.com](https://vercel.com).
-   - Click **Add New** -> **Project**.
-   - Import your GitHub repository (select the `frontend` folder).
-   - Framework preset: `Vite` (or `Next.js`).
-   - Add Environment Variable:
+2. **Configure Project Settings in Vercel**:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: Click *Edit* and select **`frontend`** (crucial!).
+   - **Build Command**: `npm run build` (default)
+   - **Output Directory**: `dist` (default)
+   - **Environment Variables**:
      - Key: `VITE_API_BASE_URL`
-     - Value: `https://job-mailer-api.onrender.com`
-   - Click **Deploy**.
+     - Value: `https://job-mailer-api.onrender.com/api` (replace with your Render backend URL)
 
-3. Vercel will build and assign you a live HTTPS URL:
+3. Click **Deploy**. Vercel will build and assign you a live production URL:
    `https://job-application-mailer-rohan.vercel.app`
+
+---
+
+### Part C: Configure Google Cloud OAuth for Production
+
+To allow 1-click Google OAuth sign-in in production:
+1. Go to [Google Cloud Console](https://console.cloud.google.com/) -> **APIs & Services** -> **Credentials**.
+2. Select your OAuth 2.0 Client ID.
+3. Under **Authorized JavaScript origins**, add:
+   - `https://<your-vercel-app-domain>.vercel.app`
+4. Under **Authorized redirect URIs**, add:
+   - `https://job-mailer-api.onrender.com/api/auth/google/callback`
+5. Save changes. OAuth will now seamlessly authorize your live application!
 
 ---
 
